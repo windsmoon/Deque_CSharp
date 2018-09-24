@@ -29,6 +29,28 @@ class Program
         deque.RemoveTail();
         deque.RemoveTail();
         deque.PrintToConsole();
+        Console.WriteLine();
+        deque.AddTail(4);
+        deque.AddTail(5);
+        deque.AddTail(6);
+        deque.AddTail(7);
+        deque.AddTail(8);
+        deque.PrintToConsole();
+        Console.WriteLine();
+
+        foreach (var item in deque)
+        {
+            Console.WriteLine(item);
+        }
+
+        //int[] ints = new int[20];
+        //deque.CopyTo(ints, 3);
+
+        //foreach (int number in ints)
+        //{
+        //    Console.WriteLine(number);
+        //}
+
         Console.ReadKey();
     }
 }
