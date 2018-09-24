@@ -91,6 +91,51 @@ namespace System.Collections.Generic
         #endregion
 
         #region methods
+        public void Clear()
+        {
+            if (head < tail)
+            {
+                Array.Clear(items, head, count);
+            }
+
+            else
+            {
+                Array.Clear(items, head, items.Length - head);
+                Array.Clear(items, 0, tail);
+            }
+
+            head = 0;
+            tail = 0;
+            count = 0;
+        }
+
+        public void CopyTo(T[] targetArray, int targetIndex)
+        {
+            if (targetArray == null)
+            {
+                throw new ArgumentNullException("targetArray");
+            }
+
+            if (targetIndex < 0 || targetIndex > targetArray.Length)
+            {
+                throw new ArgumentOutOfRangeException("targetIndex");
+            }
+
+            int targetArrayLength = targetArray.Length;
+
+            if (targetArrayLength - targetIndex < count)
+            {
+                throw new ArgumentException("no enough space to store items");
+            }
+
+            if (count == 0)
+            {
+                return;
+            }
+
+            Copy(targetArray, targetIndex);
+        }
+
         public void AddTail(T item)
         {
             if (count == items.Length)
@@ -192,20 +237,35 @@ namespace System.Collections.Generic
                 return;
             }
 
-            if (head < tail)
-            {
-                Array.Copy(items, head, newItems, 0, count);
-            }
+            //if (head < tail)
+            //{
+            //    Array.Copy(items, head, newItems, 0, count);
+            //}
 
-            else
-            {
-                Array.Copy(items, head, newItems, 0, items.Length - head);
-                Array.Copy(items, 0, newItems, items.Length - head, tail);
-            }
+            //else
+            //{
+            //    Array.Copy(items, head, newItems, 0, items.Length - head);
+            //    Array.Copy(items, 0, newItems, items.Length - head, tail);
+            //}
+            Copy(newItems, 0);
 
             items = newItems;
             head = 0;
             tail = count;
+        }
+
+        private void Copy(T[] targetArray, int targetIndex)
+        {
+            if (head < tail)
+            {
+                Array.Copy(items, head, targetArray, targetIndex, count);
+            }
+
+            else
+            {
+                Array.Copy(items, head, targetArray, targetIndex, items.Length - head);
+                Array.Copy(items, 0, targetArray, targetIndex + items.Length - head, tail);
+            }
         }
         #endregion
     }
