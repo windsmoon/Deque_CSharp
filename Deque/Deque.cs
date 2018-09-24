@@ -28,6 +28,14 @@ namespace System.Collections.Generic
                 return items.Length;
             }
         }
+
+        public int Count
+        {
+            get
+            {
+                return count;
+            }
+        }
         #endregion
 
         #region constructors
