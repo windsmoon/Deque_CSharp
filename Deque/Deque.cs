@@ -328,18 +328,7 @@ namespace System.Collections.Generic
                 return;
             }
 
-            //if (head < tail)
-            //{
-            //    Array.Copy(items, head, newItems, 0, count);
-            //}
-
-            //else
-            //{
-            //    Array.Copy(items, head, newItems, 0, items.Length - head);
-            //    Array.Copy(items, 0, newItems, items.Length - head, tail);
-            //}
             Copy(newItems, 0);
-
             items = newItems;
             head = 0;
             tail = count;
