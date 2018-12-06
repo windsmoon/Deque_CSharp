@@ -260,6 +260,18 @@ namespace System.Collections.Generic
             return item;
         }
 
+        public T GetTail()
+        {
+            if (count == 0)
+            {
+                return default(T);
+            }
+
+            int index = (tail - 1 + items.Length) % items.Length;
+            T item = items[index];
+            return item;
+        }
+
         public void AddHead(T item)
         {
             if (count == items.Length)
@@ -286,6 +298,17 @@ namespace System.Collections.Generic
             --count;
             ++version;
             return default(T);
+        }
+
+        public T GetHead()
+        {
+            if (count == 0)
+            {
+                return default(T);
+            }
+
+            T item = items[head];
+            return item;
         }
 
         public override string ToString()
@@ -414,7 +437,7 @@ namespace System.Collections.Generic
                 if (version != deque.version)
                 {
                     throw new InvalidOperationException("do not change deque when enumerating");
-                }    
+                }
 
                 if (index == -2)
                 {
