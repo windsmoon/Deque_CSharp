@@ -297,7 +297,7 @@ namespace System.Collections.Generic
             head = (head + 1) % items.Length;
             --count;
             ++version;
-            return default(T);
+            return item;
         }
 
         public T GetHead()
