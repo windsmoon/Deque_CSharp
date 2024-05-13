@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace System.Collections.Generic
 {
@@ -112,7 +111,7 @@ namespace System.Collections.Generic
             {
                 if (syncRoot == null)
                 {
-                    System.Threading.Interlocked.CompareExchange<Object>(ref syncRoot, new Object(), null);
+                    Interlocked.CompareExchange<Object>(ref syncRoot, new Object(), null);
                 }
 
                 return syncRoot;
@@ -260,14 +259,19 @@ namespace System.Collections.Generic
             return item;
         }
 
-        public T GetTail()
+        public T GetTail(int offset = 0)
         {
             if (count == 0)
             {
-                return default(T);
+                throw new Exception("Empty Queue");
             }
 
-            int index = (tail - 1 + items.Length) % items.Length;
+            else if (count <= offset)
+            {
+                throw new Exception("Offset Out of Bound");
+            }
+
+            int index = (tail - 1 - offset + items.Length) % items.Length;
             T item = items[index];
             return item;
         }
@@ -300,14 +304,19 @@ namespace System.Collections.Generic
             return item;
         }
 
-        public T GetHead()
+        public T GetHead(int offset = 0)
         {
             if (count == 0)
             {
-                return default(T);
+                throw new Exception("Empty Queue");
+            }
+            
+            else if (count <= offset)
+            {
+                throw new Exception("Offset Out of Bound");
             }
 
-            T item = items[head];
+            T item = items[(head + offset) % items.Length];
             return item;
         }
 
@@ -354,12 +363,11 @@ namespace System.Collections.Generic
 
             T[] newItems = new T[newCapacity];
 
-            if (count <= 0)
+            if (count > 0)
             {
-                return;
+                Copy(newItems, 0);
             }
 
-            Copy(newItems, 0);
             items = newItems;
             head = 0;
             tail = count;
